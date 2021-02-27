@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable */
+import { useEffect, useState } from "react";
+import "./App.css";
+import Post from './Post';
 
-function App() {
+/**
+ * TODO: Create a newsfeed with posts.
+ * Use https://jsonplaceholder.typicode.com/
+ * Each post should be searchable
+ * Each post has comments, that are loaded on request
+ * Each post has like button with counter
+ */
+
+export default function App() {
+  const [allPosts, setAllPosts] = useState([]);
+  const [inputSearch, setInputSearch] = useState('');
+
+
+
+
+
+  const searchPost = () => {
+    const resultsOfSearch = allPosts.filter(post => post.title.includes(inputSearch));
+    setAllPosts(resultsOfSearch);
+  }
+
+
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts/")
+      .then((response) => response.json())
+      .then((array) => {
+        setAllPosts(array);
+      });
+  }, []);
+
+  /**
+   * 1. Fetch data on page load
+   * 2. Render data
+   */
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input onChange={(e) => setInputSearch(e.target.value)}></input>
+      <button onClick={searchPost}>Search by title</button>
+      {allPosts.map((post) => (
+        <div key={post.id}>
+          <Post post={post} />
+
+        </div>
+      ))}
     </div>
   );
 }
-
-export default App;
