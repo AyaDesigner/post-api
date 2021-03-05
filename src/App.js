@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useState } from "react";
 import "./App.css";
-import Post from './Post';
+import Post from "./Post";
 
 /**
  * TODO: Create a newsfeed with posts.
@@ -9,22 +9,25 @@ import Post from './Post';
  * Each post should be searchable
  * Each post has comments, that are loaded on request
  * Each post has like button with counter
+ * 
+ * Task 2
+ * Show post authors
+ * Search by post authors
+ * Use https://jsonplaceholder.typicode.com/users
  */
 
 export default function App() {
   const [allPosts, setAllPosts] = useState([]);
-  const [inputSearch, setInputSearch] = useState('');
+  const [inputSearch, setInputSearch] = useState("");
+  const [inputBodySearch, setInputBodySearch] = useState("");
 
+  const onSearchChange = (e) => {
+    setInputSearch(e.target.value);
+  };
 
-
-
-
-  const searchPost = () => {
-    const resultsOfSearch = allPosts.filter(post => post.title.includes(inputSearch));
-    setAllPosts(resultsOfSearch);
-  }
-
-
+  const onSearchBodyChange = (e) => {
+    setInputBodySearch(e.target.value);
+  };
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts/")
@@ -38,14 +41,20 @@ export default function App() {
    * 1. Fetch data on page load
    * 2. Render data
    */
+
+  const filteredPosts = allPosts.filter(
+    (post) =>
+      post.title.includes(inputSearch) && post.body.includes(inputBodySearch)
+  );
+
   return (
     <div className="App">
-      <input onChange={(e) => setInputSearch(e.target.value)}></input>
-      <button onClick={searchPost}>Search by title</button>
-      {allPosts.map((post) => (
+      <input placeholder="title" onChange={onSearchChange}></input>
+      <input placeholder="body" onChange={onSearchBodyChange}></input>
+      <p>Total: {filteredPosts.length}</p>
+      {filteredPosts.map((post) => (
         <div key={post.id}>
           <Post post={post} />
-
         </div>
       ))}
     </div>
