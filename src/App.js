@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useState } from "react";
 import "./App.css";
-import Post from "./Post";
+import Post from "./components/Post";
 
 /**
  * TODO: Create a newsfeed with posts.
@@ -20,6 +20,8 @@ export default function App() {
   const [allPosts, setAllPosts] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [inputBodySearch, setInputBodySearch] = useState("");
+  const [inputAuthorSearch, setInputAuthorSearch] = useState("");
+
 
   const onSearchChange = (e) => {
     setInputSearch(e.target.value);
@@ -27,6 +29,10 @@ export default function App() {
 
   const onSearchBodyChange = (e) => {
     setInputBodySearch(e.target.value);
+  };
+
+  const onSearchAuthorChange = (e) => {
+    setInputAuthorSearch(e.target.value);
   };
 
   useEffect(() => {
@@ -50,7 +56,9 @@ export default function App() {
   return (
     <div className="App">
       <input placeholder="title" onChange={onSearchChange}></input>
-      <input placeholder="body" onChange={onSearchBodyChange}></input>
+      <input placeholder="post" onChange={onSearchBodyChange}></input>
+      <input placeholder="author" onChange={onSearchAuthorChange}></input>
+
       <p>Total: {filteredPosts.length}</p>
       {filteredPosts.map((post) => (
         <div key={post.id}>

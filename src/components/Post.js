@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Comments from './Comments';
+import Users from './User';
 
-import "./App.css";
 
 
 const Post = ({ post }) => {
@@ -14,6 +14,7 @@ const Post = ({ post }) => {
     return (<div>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
+        <Users authorId={post.userId}/>
         <button onClick={addLike}>Like {totalLikes}</button>
         <Comments post={post} />
 
